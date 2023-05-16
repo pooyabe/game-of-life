@@ -1,17 +1,55 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <time.h>
 
 void draw(void *pworld, int w, int h)
 {
-    char(*board)[w] = pworld;
+    // Clear the screen if works!
+    system("clear");
+    // if the above code does not work, use below instead
+    // printf("\033[H");
 
+    char(*world)[w] = pworld;
+
+    // Print the board, like any other arrays.
     for (int x = 0; x < w; x++)
     {
         for (int y = 0; y < h; y++)
-            printf("%c", board[x][y]);
+            printf("%c", world[x][y] ? '+' : '.');
         printf("\n");
     }
+}
+
+void give_life(void *pworld, int w, int h)
+{
+    char(*world)[w] = pworld,
+    new_world[w][h]; // New world for storing the analizes on the current world;
+
+    int lives; // for counting the number of living neighbors
+
+    // Browse all items and one item arround
+    for (int x = 0; x < w; x++)
+        for (int y = 0; y < h; y++)
+        {
+            lives = 0;
+            // xa means the x around this element. and ya so on
+            for (int xa = x - 1; xa <= x + 1; xa++)
+                for (int ya = y - 1; ya < y + 1; ya++)
+                    if (world[(ya + h) % h][(xa + w) % w])
+                        lives++;
+            
+            if (world[x][y])
+                lives--;
+
+            // Create the new world at this element
+            new_world[x][y] = (lives == 3 || (lives == 2 && world[x][y]));
+        }
+
+    // Seed the main world based on the new world
+    for (int x = 0; x < w; x++)
+        for (int y = 0; y < h; y++)
+            world[x][y] = new_world[x][y];
 }
 
 int main()
@@ -26,10 +64,18 @@ int main()
     // Seed the world
     for (int x = 0; x < width; x++)
         for (int y = 0; y < height; y++)
-            world[x][y] = rand() % 11 < 5 ? '+' : '.'; // Randomly seed the world homes
+            world[x][y] = rand() % 11 < 5 ? 1 : 0; // Randomly seed the world homes
 
-    // Draw the first world
-    draw(world, width, height);
+    while (1)
+    {
+        // Draw the world
+        draw(world, width, height);
+        // The beginning of creation and moving on
+        give_life(world, width, height);
+
+        // get some rest in 6th day. or maybe 7 i dont now much about it!
+        usleep(100000);
+    }
 
     // Some additional line breaks
     printf("\n\n\n");
