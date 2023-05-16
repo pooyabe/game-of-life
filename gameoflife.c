@@ -59,13 +59,18 @@ int main()
     printf("Enter the size of the world (30 or etc): ");
     scanf("%d", &width);
 
+    // Seed the amount of starting rundomness
+    int start_rand;
+    printf("Enter a number between 1 to 10 for seeding the starting randomness(high value means high chance to start alive for each element): ");
+    scanf("%d", &start_rand);
+
     // Declear the other variables
     int height = width;
     char world[width][height];
 
     // Get the time for sleep
     int sleep_time;
-    printf("\nEnter a sleep time between 1 to 10 (1 is fastest. 100 slowest) :");
+    printf("Enter a sleep time between 1 to 10 (1 is fastest. 100 slowest) :");
     scanf("%d", &sleep_time);
 
     sleep_time *= 100000;
@@ -76,7 +81,7 @@ int main()
     // Seed the world
     for (int x = 0; x < width; x++)
         for (int y = 0; y < height; y++)
-            world[x][y] = rand() % 11 < 2 ? 1 : 0; // Randomly seed the world homes
+            world[x][y] = rand() % 11 <= start_rand ? 1 : 0; // Randomly seed the world homes
 
     while (1)
     {
