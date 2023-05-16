@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 void draw(void *pworld, int w, int h)
 {
@@ -18,14 +20,16 @@ int main()
     int width = 30, height = width;
     char world[width][height];
 
+    // Seed the random generator with time
+    srand(time(NULL));
+
     // Seed the world
     for (int x = 0; x < width; x++)
         for (int y = 0; y < height; y++)
-            world[x][y] = '+';
+            world[x][y] = rand() % 11 < 5 ? '+' : '.'; // Randomly seed the world homes
 
     // Draw the first world
     draw(world, width, height);
-
 
     // Some additional line breaks
     printf("\n\n\n");
