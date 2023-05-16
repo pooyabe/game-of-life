@@ -16,7 +16,7 @@ void draw(void *pworld, int w, int h)
     for (int x = 0; x < w; x++)
     {
         for (int y = 0; y < h; y++)
-            printf("%c", world[x][y] ? '+' : '.');
+            printf("%c", world[x][y] ? '@' : '-');
         printf("\n");
     }
 }
@@ -54,13 +54,18 @@ void give_life(void *pworld, int w, int h)
 
 int main()
 {
-    // Declear the variables
-    int width = 30, height = width;
+    // Get the world dimentions
+    int width;
+    printf("Enter the size of the world (30 or etc): ");
+    scanf("%d", &width);
+
+    // Declear the other variables
+    int height = width;
     char world[width][height];
 
     // Get the time for sleep
     int sleep_time;
-    printf("Enter a sleep time between 1 to 10 (1 is fastest. 100 slowest) :");
+    printf("\nEnter a sleep time between 1 to 10 (1 is fastest. 100 slowest) :");
     scanf("%d", &sleep_time);
 
     sleep_time *= 100000;
