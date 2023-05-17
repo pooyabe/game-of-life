@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <time.h>
 
-void draw(void *pworld, int w, int h, int count)
+void draw(void *pworld, int w, int h, int *count)
 {
     // Clear the screen if works!
     system("clear");
@@ -12,13 +12,15 @@ void draw(void *pworld, int w, int h, int count)
 
     char(*world)[w] = pworld;
     // Print the days passed
-    printf("Days passed from BIG BANG: %d\n", count);
+    printf("Days passed from BIG BANG: %d\n", *count);
+    //Pass a day
+    *count += 1;
 
     // Print the board, like any other arrays.
     for (int x = 0; x < w; x++)
     {
         for (int y = 0; y < h; y++)
-            printf("%c", world[x][y] ? '@' : '-');
+            printf("%c", world[x][y] ? 'o' : '-');
         printf("\n");
     }
 }
@@ -90,7 +92,7 @@ int main()
     while (1)
     {
         // Draw the world
-        draw(world, width, height, count++);
+        draw(world, width, height, &count);
         // The beginning of creation and moving on
         give_life(world, width, height);
 
