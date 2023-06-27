@@ -20,7 +20,13 @@ void draw(void *pworld, int w, int h, int *count)
     for (int x = 0; x < w; x++)
     {
         for (int y = 0; y < h; y++)
-            printf("%c", world[x][y] ? 'o' : '-');
+            if (world[x][y])
+		printf("⬜");
+	    else
+		printf("⬛");
+	
+	//printf("%c", world[x][y] ? 'o' : '-');
+	
         printf("\n");
     }
 }
